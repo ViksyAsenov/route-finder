@@ -21,7 +21,7 @@ export const parseBus = (busData: string): Bus => {
   return {
     startingCity: parts[0],
     currentCity: parts[0],
-    weightCapacity: parseFloat(parts[1]),
+    loadCapacity: parseFloat(parts[1]),
     packages: [],
   };
 };

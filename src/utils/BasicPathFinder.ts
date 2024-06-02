@@ -40,19 +40,19 @@ class BasicPathFinder {
 
   getBestBasicPath(bus: Bus, packages: Package[]): string {
     console.log(bus);
-    if (bus.weightCapacity < 0) {
+    if (bus.loadCapacity < 0) {
       return "done";
     }
 
     for (const currentPackage of packages) {
       if (bus.currentCity === currentPackage.path.to) {
         bus.packages.splice(bus.packages.indexOf(currentPackage), 1);
-        bus.weightCapacity += currentPackage.weight;
+        bus.loadCapacity += currentPackage.weight;
       }
 
       if (bus.currentCity === currentPackage.path.from) {
         bus.packages.push(currentPackage);
-        bus.weightCapacity -= currentPackage.weight;
+        bus.loadCapacity -= currentPackage.weight;
       }
     }
 

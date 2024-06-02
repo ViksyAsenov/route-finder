@@ -3,7 +3,7 @@ import Package from "./Package";
 interface Bus {
   startingCity: string;
   currentCity: string;
-  weightCapacity: number;
+  loadCapacity: number;
   packages: Package[];
 }
 
