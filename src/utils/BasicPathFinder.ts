@@ -38,27 +38,64 @@ class BasicPathFinder {
     }
   }
 
-  getBestBasicPath(bus: Bus, packages: Package[]): string {
-    console.log(bus);
-    if (bus.loadCapacity < 0) {
-      return "done";
+  getBestBasicPath(
+    bus: Bus,
+    packages: Package[],
+    currentVisited: string[],
+    allVisitedPaths: string[],
+    lastInvalidPath: string
+  ): void {
+    if (packages.length === 0) {
+      allVisitedPaths.push(currentVisited.join(","));
+      return;
     }
+
+    currentVisited.push(bus.currentCity);
 
     for (const currentPackage of packages) {
-      if (bus.currentCity === currentPackage.path.to) {
-        bus.packages.splice(bus.packages.indexOf(currentPackage), 1);
-        bus.loadCapacity += currentPackage.weight;
+      if (
+        bus.currentCity === currentPackage.path.from &&
+        !bus.packages.includes(currentPackage)
+      ) {
+        bus.packages.push(currentPackage);
       }
 
-      if (bus.currentCity === currentPackage.path.from) {
-        bus.packages.push(currentPackage);
-        bus.loadCapacity -= currentPackage.weight;
+      if (
+        bus.currentCity === currentPackage.path.to &&
+        bus.packages.includes(currentPackage)
+      ) {
+        packages.splice(packages.indexOf(currentPackage), 1);
+        bus.packages.splice(bus.packages.indexOf(currentPackage), 1);
       }
     }
 
-    bus.currentCity = bus.packages.at(0)?.path.to as string;
+    let isValidPath = true;
+    if (bus.currentWeight() > bus.loadCapacity) {
+      lastInvalidPath = `${currentVisited[currentVisited.length - 2]}->${
+        currentVisited[currentVisited.length - 1]
+      }`;
 
-    return this.getBestBasicPath(bus, packages);
+      isValidPath = false;
+    }
+
+    const possiblePaths = this.getPossiblePaths(bus.currentCity);
+
+    for (const possiblePath of possiblePaths) {
+      if (isValidPath) {
+        console.log(`${bus.currentCity} -> ${possiblePath}`);
+        bus.currentCity = possiblePath;
+
+        this.getBestBasicPath(
+          bus,
+          packages,
+          currentVisited,
+          allVisitedPaths,
+          lastInvalidPath
+        );
+
+        currentVisited.pop();
+      }
+    }
   }
 }
 

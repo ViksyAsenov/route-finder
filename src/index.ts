@@ -33,10 +33,24 @@ export function main(
     basicPathFinder.addEntry(path.from, path);
   }
 
-  basicPathFinder.printAllPaths();
+  const allVisitedPaths: string[] = [];
+  const visited: string[] = [];
+
+  basicPathFinder.getBestBasicPath(
+    parsedBus,
+    parsedPackages,
+    visited,
+    allVisitedPaths,
+    ""
+  );
+
+  //console.log(allVisitedPaths);
+
+  //basicPathFinder.printAllPaths();
 
   return "";
 }
 
 const dataProvider = new DataProvider();
-console.log("result", main({ type: CalculationType.BasicPath }, dataProvider));
+main({ type: CalculationType.BasicPath }, dataProvider);
+//console.log("result", main({ type: CalculationType.BasicPath }, dataProvider));
