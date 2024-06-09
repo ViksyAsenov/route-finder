@@ -4,7 +4,7 @@ interface Bus {
   startingCity: string;
   currentCity: string;
   loadCapacity: number;
-  currentWeight: () => number;
+  currentWeight: number;
   packages: Package[];
 }
 

@@ -34,23 +34,21 @@ export function main(
   }
 
   const allVisitedPaths: string[] = [];
-  const visited: string[] = [];
 
   basicPathFinder.getBestBasicPath(
     parsedBus,
     parsedPackages,
-    visited,
+    [],
     allVisitedPaths,
-    ""
+    new Set()
   );
 
-  //console.log(allVisitedPaths);
+  const result = allVisitedPaths.sort(
+    (path1, path2) => path1.length - path2.length
+  )[0];
 
-  //basicPathFinder.printAllPaths();
-
-  return "";
+  console.log(result);
+  return result ?? "";
 }
 
-const dataProvider = new DataProvider();
-main({ type: CalculationType.BasicPath }, dataProvider);
-//console.log("result", main({ type: CalculationType.BasicPath }, dataProvider));
+main({ type: CalculationType.BasicPath }, new DataProvider());

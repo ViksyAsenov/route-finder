@@ -22,11 +22,7 @@ export const parseBus = (busData: string): Bus => {
     startingCity: parts[0],
     currentCity: parts[0],
     loadCapacity: parseFloat(parts[1]),
-    currentWeight: function () {
-      return this.packages.reduce((totalWeight, currentPackage) => {
-        return (totalWeight += currentPackage.weight);
-      }, 0);
-    },
+    currentWeight: 0,
     packages: [],
   };
 };
